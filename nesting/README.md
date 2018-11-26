@@ -1,4 +1,4 @@
-### Motivation
+## Motivation
 
 Dealing with nested tmux sessions, under a vanilla setup, is quite painful.
 Typically, one either allocates dedicated prefix keys for each session, or
@@ -8,7 +8,7 @@ nested session.
 With deep nesting, such measures quickly become unwieldy. This is one solution
 to that problem.
 
-### Usage
+## Usage
 
 This plugin provides a workflow whereby you can "focus" on a particular nested
 session and operate within its context just like any other tmux session. There
@@ -16,7 +16,8 @@ are two special key bindings to move focus up and down the nesting hierarchy.
 
 To use this addon, the current directory should be placed in your home
 directory under `.tmux.d/addons/nesting` and source the `conf` file from your
-tmux configuration.
+tmux configuration. Naturally, this should be done on all machines intended to
+participate in the nesting interaction.
 
 The key bindings for navigating the nesting hierarchy can be configured in that
 same `conf` file by setting the following variables:
@@ -37,7 +38,7 @@ as follows:
 By default, these conain a minimal status bar styling that should be reasonable
 for vanilla setups.
 
-### Implementiation Overview
+## Implementiation Overview
 
 Essentially, this models each session as a simple state machine. States are
 modeled by `source-file`ing the appropriate file in the `states` directory, and
