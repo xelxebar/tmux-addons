@@ -38,6 +38,45 @@ as follows:
 By default, these conain a minimal status bar styling that should be reasonable
 for vanilla setups.
 
+## Usage with ssh
+
+When logging into machines that automatically start tmux, say from their
+`.profile`, it's nice to have those sessions start in the blurred state. To
+that end we can use an environment variable and load the appropriate `init-*`
+hook when nested. Here's a minimal example
+
+```
+# .profile
+
+if [ -z "${TMUX}" ]; then
+	tmux_conf=~/.tmux.d/addons/nesting/hooks/${TMUX_STATE_HINT:-init-focused}
+	export TMUX_STATE_HINT=init-blurred
+
+	exec tmux -f "${tmux_conf}"
+fi
+```
+
+We then need to tell ssh to send `TMUX_STATE_HINT` to the remote machine. This
+should be done on every machine---actually, it's optional on any machine that
+doesn't expect to parent further nesting:
+
+```
+# /etc/ssh/ssh_config
+SendEnv TMUX_STATE_HINT
+```
+
+And then every nested machine needs to configure the ssh daemon to accept
+`TMUX_STATE_HINT`:
+
+```
+# /etc/ssh/sshd_config
+AcceptEnv TMUX_STATE_HINT
+```
+
+Of couse, this requires administrator priviledges to edit those config files.
+In case that's not possible, you can just put all nested session in the blurred
+state with `key_focus_down` after login.
+
 ## Implementiation Overview
 
 Essentially, this models each session as a simple state machine. States are
