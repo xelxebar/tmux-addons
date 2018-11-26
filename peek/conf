@@ -1,0 +1,12 @@
+key_new=B
+key_peek=b
+key_unpeek=X
+
+socket_name=addon-peek
+
+bg_tmux="tmux -f ~/.tmux.d/addons/peek/drawer.conf -L ${socket_name}"
+bind-key ${key_new} command-prompt -p 'to session:' \
+	"new-window -a ${bg_tmux} new-session -s %1"
+bind-key ${key_peek} command-prompt -p 'from session:' \
+	"split-window -p 10 -vbf -d ${bg_tmux} attach-session -t %1"
+bind-key ${key_unpeek} kill-pane -t 0
