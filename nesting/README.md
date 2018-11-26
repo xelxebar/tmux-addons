@@ -29,8 +29,10 @@ indicators in the status bar, play music, donate money to a good cause, or
 whatever works for your setup. The hooks exist in the `hooks` directory and are
 as follows:
 
-* `on-focus`: sourced whenever a session gains focus, and
-* `on-blur`: sourced whenever a session loses focus.
+* `on-focus`: sourced whenever a session gains focus,
+* `on-blur`: sourced whenever a session loses focus,
+* `init-focused`: to be sourced once when initializing a focused session, and
+* `init-blurred`: to be sourced once when initializing a blurred session.
 
 By default, these conain a minimal status bar styling that should be reasonable
 for vanilla setups.
@@ -51,10 +53,9 @@ word "focus":
 * `hyperopic`: session is "too close", *i.e.* less deeply nested than the
     currently focused session.
 
-There are also `init-*` states intended for one-time sourcing a session
-startup. The `blurred` state is a transient one that `myopic` and `hyperopic`
-both transition through---essentially, it just factors out the common code
-between those two states.
+The `blurred` state is a transient one that `myopic` and `hyperopic` both
+transition through---essentially, it just factors out the common code between
+them.
 
 The primary mechanism works by abusing `bind-key` and `send-keys` in
 conjunction. The `send-keys` command acts as a message passing mechanism
