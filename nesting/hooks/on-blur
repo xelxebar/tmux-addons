@@ -1,0 +1,3 @@
+window_status='#{window_index}:#{pane_current_command}'
+set-window-option -qg window-status-format         "${window_status}-"
+set-window-option -qg window-status-current-format "${window_status}-"

@@ -1,0 +1,7 @@
+key_prefix=C-s
+key_prefix_none=M-F9
+
+source-file ~/.tmux.d/addons/nesting/hooks/on-blur
+
+set-option -qg prefix ${key_prefix_none}
+bind-key ${key_prefix} send-keys ${key_prefix}

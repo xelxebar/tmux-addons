@@ -1,0 +1,3 @@
+msg_should_blur=M-F10
+source-file ~/.tmux.d/addons/nesting/states/focused
+send-keys ${msg_should_blur}

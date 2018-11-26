@@ -1,0 +1,5 @@
+key_focus_up=C-up
+key_focus_down=C-down
+
+bind-key -n ${key_focus_up}   source-file ~/.tmux.d/addons/nesting/funcs/focus-up
+bind-key -n ${key_focus_down} source-file ~/.tmux.d/addons/nesting/funcs/focus-here

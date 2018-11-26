@@ -1,0 +1,9 @@
+key_prefix=C-s
+msg_should_blur=M-F10
+msg_should_focus=M-F11
+
+source-file ~/.tmux.d/addons/nesting/hooks/on-focus
+
+set-option -qg prefix ${key_prefix}
+bind-key -n ${msg_should_blur}  source-file ~/.tmux.d/addons/nesting/states/myopic
+bind-key -n ${msg_should_focus} source-file ~/.tmux.d/addons/nesting/funcs/focus-up

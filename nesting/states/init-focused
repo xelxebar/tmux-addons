@@ -1,0 +1,2 @@
+source-file ~/.tmux.d/addons/nesting/states/init
+source-file ~/.tmux.d/addons/nesting/states/focused
