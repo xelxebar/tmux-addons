@@ -25,6 +25,11 @@ same `conf` file by setting the following variables:
 * `key_focus_up`: moves focus to the next more deeply nested session, and
 * `key_focus_down`: resets focus to the outermost session.
 
+Also, the `key_prefix` variable needs to be set in the files
+`states/{focused,blurred}`. Unfortunately, due to a limitation of tmux, we
+can't propogate variables between sourced files, so for now we have to manually
+set the prefix key in every file that needs it.
+
 Whenever a session loses or gains focus, a hook is called so you can setup
 indicators in the status bar, play music, donate money to a good cause, or
 whatever works for your setup. The hooks exist in the `hooks` directory and are

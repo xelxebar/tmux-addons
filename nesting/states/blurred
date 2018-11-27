@@ -1,4 +1,4 @@
-key_prefix=C-s
+key_prefix=C-b
 key_prefix_none=M-F9
 
 source-file ~/.tmux.d/addons/nesting/hooks/on-blur

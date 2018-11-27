@@ -1,4 +1,4 @@
-key_prefix=C-s
+key_prefix=C-b
 msg_should_blur=M-F10
 msg_should_focus=M-F11
 
