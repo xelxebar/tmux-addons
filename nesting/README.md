@@ -15,12 +15,12 @@ session and operate within its context just like any other tmux session. There
 are two special key bindings to move focus up and down the nesting hierarchy.
 
 To use this addon, the current directory should be placed in your home
-directory under `.tmux.d/addons/nesting` and source the `conf` file from your
+directory under `.tmux.d/addons/nesting`, sourcing the `conf` file from your
 tmux configuration. Naturally, this should be done on all machines intended to
 participate in the nesting interaction.
 
-The key bindings for navigating the nesting hierarchy can be configured in that
-same `conf` file by setting the following variables:
+The key bindings for navigating the nesting hierarchy can be configured from
+the `conf` file by setting the following variables:
 
 * `key_focus_up`: moves focus to the next more deeply nested session, and
 * `key_focus_reset`: resets focus to the outermost session.
@@ -84,13 +84,15 @@ state with `key_focus_reset` after login.
 
 ## Implementiation Overview
 
-Essentially, this models each session as a simple state machine. States are
-modeled by `source-file`ing the appropriate file in the `states` directory, and
-sessions communicate by `send-keys`ing a dedicated key to trigger appropriate
-state changes.
+This implementation treats sessions as simple state machines that pass messages
+to coordinate state changes.
 
-There are three primary states a session can be in, named by punning on the
-word "focus":
+A particular state corresponds to particular configurations of tmux variables.
+State changes are modeled with `source-file` by loading "state" configurations
+located in the `states` directory.
+
+There are three primary states a session can be in, named by punning on optics
+terminology:
 
 * `focused`: session has focus and responds to prefix key,
 * `underfocussed`: session is "too far away", *i.e.* more deeply nested than
@@ -102,10 +104,9 @@ The `blurred` state is a transient one that `underfocussed` and `overfocussed`
 both transition through---essentially, it just factors out the common code
 between them.
 
-The primary mechanism works by abusing `bind-key` and `send-keys` in
-conjunction. The `send-keys` command acts as a message passing mechanism
-between sessions and `bind-keys` allows sessions to transision between states
-when receiving a "message". The "message" keys are
+Message passing is implemented via coordination between `send-keys` and
+`bind-key`. Each message is assigned a special key, and `bind-key` assigns
+state transitions to messages. There are only two message types:
 
 * `msg_should_focus`: indicating that focus is moving to a more deeply nested
     session, and
