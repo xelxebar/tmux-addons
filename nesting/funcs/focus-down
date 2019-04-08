@@ -1,3 +1,0 @@
-msg_should_blur=M-F10
-source-file ~/.tmux.d/addons/nesting/states/myopic
-send-keys ${msg_should_blur}

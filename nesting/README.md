@@ -23,7 +23,7 @@ The key bindings for navigating the nesting hierarchy can be configured in that
 same `conf` file by setting the following variables:
 
 * `key_focus_up`: moves focus to the next more deeply nested session, and
-* `key_focus_down`: resets focus to the outermost session.
+* `key_focus_reset`: resets focus to the outermost session.
 
 Also, the `key_prefix` variable needs to be set in the files
 `states/{focused,blurred}`. Unfortunately, due to a limitation of tmux, we
@@ -80,7 +80,7 @@ AcceptEnv TMUX_STATE_HINT
 
 Of couse, this requires administrator priviledges to edit those config files.
 In case that's not possible, you can just put all nested session in the blurred
-state with `key_focus_down` after login.
+state with `key_focus_reset` after login.
 
 ## Implementiation Overview
 
@@ -92,15 +92,15 @@ state changes.
 There are three primary states a session can be in, named by punning on the
 word "focus":
 
-* `focused`: session has the focus and responds as expected,
-* `myopic`: session is "too far away", *i.e.* more deeply nested than the
-    currently focused session, and
-* `hyperopic`: session is "too close", *i.e.* less deeply nested than the
+* `focused`: session has focus and responds to prefix key,
+* `underfocussed`: session is "too far away", *i.e.* more deeply nested than
+    the currently focused session, and
+* `overfocussed`: session is "too close", *i.e.* less deeply nested than the
     currently focused session.
 
-The `blurred` state is a transient one that `myopic` and `hyperopic` both
-transition through---essentially, it just factors out the common code between
-them.
+The `blurred` state is a transient one that `underfocussed` and `overfocussed`
+both transition through---essentially, it just factors out the common code
+between them.
 
 The primary mechanism works by abusing `bind-key` and `send-keys` in
 conjunction. The `send-keys` command acts as a message passing mechanism
@@ -113,10 +113,10 @@ when receiving a "message". The "message" keys are
     session.
 
 This introduces a couple quirks. We can actually push focus off the end of the
-nesting hierarchy. This can be easily reset by pressing `key_focus_down`, but
+nesting hierarchy. This can be easily reset by pressing `key_focus_reset`, but
 while every session is "blurred", the `msg_should_focus` key gets leaked to the
 application.
 
 Second, since `send-keys` can only send messages up the nesting hierarchy, we
 have no stateless way of decrementing focus down the nesting hierarchy. This is
-why `key_focus_down` resets focus instead of doing the more intuitive thing.
+why whe have `key_focus_reset` instead of a `key_focus_down`.

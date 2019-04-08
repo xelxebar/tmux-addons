@@ -1,3 +1,3 @@
 msg_should_focus=M-F11
-source-file ~/.tmux.d/addons/nesting/states/hyperopic
+source-file ~/.tmux.d/addons/nesting/states/overfocussed
 send-keys ${msg_should_focus}
